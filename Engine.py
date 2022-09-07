@@ -21,9 +21,9 @@ class gameState():
     if column <= 6 and column >= 0:
       if self.rowCounter[column] >= 0:
         if self.redTurn:
-            self.board[self.rowCounter[column]][column] = 1
+          self.board[self.rowCounter[column]][column] = 1
         else:
-            self.board[self.rowCounter[column]][column] = 2
+          self.board[self.rowCounter[column]][column] = 2
         self.rowCounter[column] -= 1
         self.redTurn = not self.redTurn
         self.moveLog.append(column)
@@ -37,27 +37,26 @@ class gameState():
       piece = self.board[a][b]
       if piece != 0: 
         if piece == self.board[a - 1][b]:
-          if piece == 1:
-            if piece == self.board[a - 2][b]:
-              if piece == self.board[a - 3][b]:
-                  return True
+          if piece == self.board[a - 2][b]:
+            if piece == self.board[a - 3][b]:
+                return True
 
-      if b <= 3:
-        if piece == self.board[a][b + 1]:
-          if piece == self.board[a][b + 2]:
-            if piece == self.board[a][b + 3]:
+        if b <= 3:
+          if piece == self.board[a][b + 1]:
+            if piece == self.board[a][b + 2]:
+              if piece == self.board[a][b + 3]:
+                return True
+  
+        if piece == self.board[a - 1][b + 1]:
+          if piece == self.board[a - 2][b + 2]:
+            if piece == self.board[a - 3][b + 3]:
               return True
-
-      if piece == self.board[a - 1][b + 1]:
-        if piece == self.board[a - 2][b + 2]:
-          if piece == self.board[a - 3][b + 3]:
-            return True
-
-      elif b > 3:
-        if piece == self.board[a - 1][b - 1]:
-          if piece == self.board[a - 2][b - 2]:
-            if piece == self.board[a - 3][b - 3]:
-              return True
+  
+        elif b > 3:
+          if piece == self.board[a - 1][b - 1]:
+            if piece == self.board[a - 2][b - 2]:
+              if piece == self.board[a - 3][b - 3]:
+                return True
       if a == 3:
         done = True
       if b == 6:
