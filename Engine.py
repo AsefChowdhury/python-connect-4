@@ -28,41 +28,102 @@ class gameState():
         self.redTurn = not self.redTurn
         self.moveLog.append(column)
 
-  def isWin(self):
-    done = False
-    a = 5
-    b = 0
-    while not done:
-
-      piece = self.board[a][b]
-      if piece != 0: 
-        if piece == self.board[a - 1][b]:
-          if piece == self.board[a - 2][b]:
-            if piece == self.board[a - 3][b]:
-                return True
-
-        if b <= 3:
-          if piece == self.board[a][b + 1]:
-            if piece == self.board[a][b + 2]:
-              if piece == self.board[a][b + 3]:
-                return True
+  def isWin(self, column):
+    #done = False
+    diagonalLefts, verticals, horizontals, diagonalRights = 0, 0, 0, 0
+    piece = self.board[self.rowCounter[column] + 1][column]
+    row = self.rowCounter[column] + 1
+    # Horizonals:
+    positiveDir, negativeDir = False, False
+    col = 1
+    while (positiveDir == False or negativeDir == False) and horizontals < 3:       
+      if negativeDir == False:
+        if column - col >= 0:
+          if piece == self.board[row][column - col]:
+            horizontals += 1
+          else:
+            negativeDir = True
+        else: 
+          negativeDir = True
   
-        if piece == self.board[a - 1][b + 1]:
-          if piece == self.board[a - 2][b + 2]:
-            if piece == self.board[a - 3][b + 3]:
-              return True
+      if positiveDir == False:
+        if column + col <= 6:
+          if piece == self.board[row][column + col]:
+            horizontals += 1
+          else:
+            positiveDir = True
+        else:
+          positiveDir = True
+      col += 1
+    if horizontals == 3:
+      return True
+      
+    # Veritcals:  
+    negativeDir = False
+    r = 1
+    while negativeDir == False and verticals < 3:
+      if negativeDir == False:
+        if row + r <= 5:
+          if piece == self.board[row + r][column]:
+            verticals += 1
+          else:
+            negativeDir = True
+        else:
+          negativeDir = True
+      r += 1
+    if verticals == 3:
+      return True
+    # diagonalLefts:
+    positiveDir, negativeDir = False, False
+    r = 1
+    col = 1
+    while (positiveDir == False or negativeDir == False) and diagonalLefts < 3:  
+      if positiveDir == False:
+        if column - col >= 0 and row - r <= 0:
+          if piece == self.board[row - r][column - col]:
+            diagonalLefts += 1
+          else:
+            positiveDir = True
+        else:
+            positiveDir = True
+
+      if negativeDir == False:
+        if row + r <= 5 and column + col <= 6:
+          if piece == self.board[row + r][column + col]:
+            diagonalLefts += 1
+          else:
+            negativeDir = True
+        else:
+            negativeDir = True
+      r += 1
+      col += 1
+    if diagonalLefts == 3:
+      return True
+      
+    # diagonalRights:
+    positiveDir, negativeDir = False, False
+    r = 1
+    col = 1
+    while (positiveDir == False or negativeDir == False) and diagonalRights < 3:
+      if negativeDir == False:
+        if column - col >= 0 and row + r <= 5:
+          if piece == self.board[row + r][column - col]:
+            diagonalRights += 1
+          else:
+            negativeDir = True
+        else:
+            negativeDir = True
   
-        elif b > 3:
-          if piece == self.board[a - 1][b - 1]:
-            if piece == self.board[a - 2][b - 2]:
-              if piece == self.board[a - 3][b - 3]:
-                return True
-      if a == 3:
-        done = True
-      if b == 6:
-        a -= 1
-        b = 0
-      else:
-        b += 1
+      if positiveDir == False:
+        if row - r >= 0 and column + col <= 6:
+          if piece == self.board[row - r][column + col]:
+            diagonalRights += 1
+          else:
+            positiveDir = True
+        else:
+            positiveDir = True
+      r += 1
+      col += 1
+    if diagonalRights == 3:
+      return True
     return False
-    
