@@ -27,6 +27,10 @@ class gameState():
         self.rowCounter[column] -= 1
         self.redTurn = not self.redTurn
         self.moveLog.append(column)
+        
+  def undoMove(self):
+    pop = self.moveLog.pop()
+    self.board[self.rowCounter[pop] + 1][pop] = 0
 
   def isWin(self, column):
     #done = False
