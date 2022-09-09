@@ -6,7 +6,7 @@ class gameState():
                   [0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0], 
                   [0, 0, 0, 0, 0, 0, 0]]
-    self.redTurn = False
+    self.redTurn = True
     self.rowCounter = [5, 5, 5, 5, 5, 5, 5]
     self.moveLog = [] #move log used for the undoMove method
     self.win = False

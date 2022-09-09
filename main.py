@@ -1,8 +1,8 @@
 import Engine
+import AI
 import pygame
 import sys
 import math
-
 
 circleDiam = 64
 radius = circleDiam / 2
@@ -56,11 +56,12 @@ def dropPiece(gameState, column):
 
 gameOver = False
 won = False
+moveMade = False
 
 while not gameOver:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
-      sys.exit()
+      gameOver = True
     if not won:
       if event.type == pygame.MOUSEMOTION:
         posx = event.pos[0]
@@ -83,6 +84,7 @@ while not gameOver:
           screen, backgroundColour, (0, 0, WIDTH, 66))  
         dropPiece(gameState, col)
         gameState.move(col)
+        moveMade = True
         if gameState.win == True:
           if gameState.redTurn:
             print("orange wins")
@@ -90,3 +92,15 @@ while not gameOver:
             print("red wins")
           won = True
           
+  if moveMade == True and won == False:
+    moves = gameState.allMoves()
+    bestMove = AI.movefinder(gameState, moves)
+    dropPiece(gameState, bestMove)
+    gameState.move(bestMove)
+    moveMade = False
+    if gameState.win == True:
+      if gameState.redTurn:
+        print("orange wins")
+      else:    
+        print("red wins")
+      won = True
