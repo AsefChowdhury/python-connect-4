@@ -9,6 +9,7 @@ class gameState():
     self.redTurn = False
     self.rowCounter = [5, 5, 5, 5, 5, 5, 5]
     self.moveLog = [] #move log used for the undoMove method
+    self.win = False
   
   def allMoves(self):
     moves = []
@@ -27,10 +28,15 @@ class gameState():
         self.rowCounter[column] -= 1
         self.redTurn = not self.redTurn
         self.moveLog.append(column)
+        self.win = self.isWin(column)
         
   def undoMove(self):
     pop = self.moveLog.pop()
     self.board[self.rowCounter[pop] + 1][pop] = 0
+    self.rowCounter[pop] += 1
+    self.redTurn = not self.redTurn
+    if self.win:
+      self.win = False
 
   def isWin(self, column):
     #done = False

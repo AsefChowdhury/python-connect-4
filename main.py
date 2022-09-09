@@ -83,7 +83,7 @@ while not gameOver:
           screen, backgroundColour, (0, 0, WIDTH, 66))  
         dropPiece(gameState, col)
         gameState.move(col)
-        if gameState.isWin(col) == True:
+        if gameState.win == True:
           if gameState.redTurn:
             print("orange wins")
           else:    
