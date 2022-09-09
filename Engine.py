@@ -68,7 +68,7 @@ class gameState():
     if horizontals == 3:
       return True
       
-    # Veritcals:  
+    # Verticals:  
     negativeDir = False
     r = 1
     while negativeDir == False and verticals < 3:
@@ -89,7 +89,7 @@ class gameState():
     col = 1
     while (positiveDir == False or negativeDir == False) and diagonalLefts < 3:  
       if positiveDir == False:
-        if column - col >= 0 and row - r <= 0:
+        if column - col >= 0 and row - r >= 0:
           if piece == self.board[row - r][column - col]:
             diagonalLefts += 1
           else:
