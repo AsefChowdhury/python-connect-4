@@ -1,4 +1,3 @@
-# Richu, ive updated menu.py locally. imma update it more then paste it onto here so you could get started on trying to display whoever wins on the board. Only thing (i think) i got left to do with the menu is make it open PvP or PvAI. could be more. who knows. I'll try and do as much as i can. Again, dont worry about this. I'll probs ask for your help if im hella stuck :-)
 import pygame
 pygame.init()
 
