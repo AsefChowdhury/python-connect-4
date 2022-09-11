@@ -1,8 +1,8 @@
 import Engine
 import AI
 import pygame
-import sys
 import math
+import Menu
 
 circleDiam = 64
 radius = circleDiam / 2
@@ -23,8 +23,6 @@ redPiece = pygame.transform.scale(pygame.image.load("images/redPiece.png"),
 orangePiece = pygame.transform.scale(
     pygame.image.load("images/orangePiece.png"),
     (circleDiam + 2, circleDiam + 2))
-screen.fill(backgroundColour)
-screen.blit(boardImage, (0, 66))
 
 def dropPiece(gameState, column):
   y = 0
@@ -52,11 +50,16 @@ def dropPiece(gameState, column):
     screen.blit(boardImage, (0, 66))
     pygame.display.update()
         
-
+mode = Menu.menu(screen, backgroundColour, boardImage, HEIGHT)
 
 gameOver = False
 won = False
-moveMade = False
+AImove = False
+
+if mode[0] == True:
+  AIMode = True
+else:
+  AIMode = False
 
 while not gameOver:
   for event in pygame.event.get():
@@ -82,7 +85,7 @@ while not gameOver:
           screen, backgroundColour, (0, 0, WIDTH, 66))  
         dropPiece(gameState, col)
         gameState.move(col)
-        moveMade = True
+        AImove = True
         if gameState.win == True:
           if gameState.redTurn:
             print("orange wins")
@@ -90,19 +93,19 @@ while not gameOver:
             print("red wins")
           won = True
           
-  if moveMade == True and won == False:
-    moves = gameState.allMoves()
-    bestMove = AI.movefinder(gameState, moves)
-    dropPiece(gameState, bestMove)
-    gameState.move(bestMove)
-    moveMade = False
-    if gameState.win == True:
-      if gameState.redTurn:
-        print("orange wins")
-      else:    
-        print("red wins")
-      won = True
-  if event.type == pygame.QUIT:
-    gameOver = True
-  pygame.display.update()
+      if AImove == True and won == False and AIMode == True:
+        moves = gameState.allMoves()
+        bestMove = AI.movefinder(gameState, moves)
+        dropPiece(gameState, bestMove)
+        gameState.move(bestMove)
+        AImove = False
+        if gameState.win == True:
+          if gameState.redTurn:
+            print("orange wins")
+          else:    
+            print("red wins")
+          won = True
+    if event.type == pygame.QUIT:
+      gameOver = True
+    pygame.display.update()
 pygame.quit()
