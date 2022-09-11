@@ -43,6 +43,7 @@ class gameState():
     diagonalLefts, verticals, horizontals, diagonalRights = 0, 0, 0, 0
     piece = self.board[self.rowCounter[column] + 1][column]
     row = self.rowCounter[column] + 1
+    
     # Horizonals:
     positiveDir, negativeDir = False, False
     col = 1
@@ -55,7 +56,7 @@ class gameState():
             negativeDir = True
         else: 
           negativeDir = True
-  
+          
       if positiveDir == False:
         if column + col <= 6:
           if piece == self.board[row][column + col]:

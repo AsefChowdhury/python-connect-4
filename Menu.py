@@ -1,4 +1,3 @@
-# Richu this menu aint complete, obvs. Imma need some help but thought i might copy and paste what i've done before i push it onto the repo. I'll tell you more about it when we call. 
 import pygame
 
 #display window:

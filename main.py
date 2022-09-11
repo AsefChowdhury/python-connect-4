@@ -60,9 +60,6 @@ moveMade = False
 
 while not gameOver:
   for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-      gameOver = True
-      sys.exit()
     if not won:
       if event.type == pygame.MOUSEMOTION:
         posx = event.pos[0]
@@ -105,3 +102,7 @@ while not gameOver:
       else:    
         print("red wins")
       won = True
+  if event.type == pygame.QUIT:
+    gameOver = True
+  pygame.display.update()
+pygame.quit()
