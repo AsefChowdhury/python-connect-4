@@ -10,12 +10,14 @@ class gameState():
     self.rowCounter = [5, 5, 5, 5, 5, 5, 5]
     self.moveLog = [] #move log used for the undoMove method
     self.win = False
+    self.turns = len(self.board) * len(self.board[0])
   
   def allMoves(self):
     moves = []
-    for i in range(7):
-      if self.rowCounter[i] >= 0:
-        moves.append(i)
+    if not self.win:
+      for i in range(7):
+        if self.rowCounter[i] >= 0:
+          moves.append(i)
     return(moves)
   
   def move(self, column):
@@ -29,6 +31,10 @@ class gameState():
         self.redTurn = not self.redTurn
         self.moveLog.append(column)
         self.win = self.isWin(column)
+        self.turns -= 1
+        return True
+    return False
+    
         
   def undoMove(self):
     pop = self.moveLog.pop()
@@ -37,6 +43,7 @@ class gameState():
     self.redTurn = not self.redTurn
     if self.win:
       self.win = False
+    self.turns += 1
 
   def isWin(self, column):
     #done = False
@@ -66,7 +73,7 @@ class gameState():
         else:
           positiveDir = True
       col += 1
-    if horizontals == 3:
+    if horizontals >= 3:
       return True
       
     # Verticals:  
@@ -82,7 +89,7 @@ class gameState():
         else:
           negativeDir = True
       r += 1
-    if verticals == 3:
+    if verticals >= 3:
       return True
     # diagonalLefts:
     positiveDir, negativeDir = False, False
@@ -108,7 +115,7 @@ class gameState():
             negativeDir = True
       r += 1
       col += 1
-    if diagonalLefts == 3:
+    if diagonalLefts >= 3:
       return True
       
     # diagonalRights:
@@ -135,6 +142,6 @@ class gameState():
             positiveDir = True
       r += 1
       col += 1
-    if diagonalRights == 3:
+    if diagonalRights >= 3:
       return True
     return False

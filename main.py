@@ -56,7 +56,7 @@ gameOver = False
 won = False
 AImove = False
 
-if mode[0] == True:
+if mode == True:
   AIMode = True
 else:
   AIMode = False
@@ -81,11 +81,11 @@ while not gameOver:
           col = 0
         else:
           col = math.floor(round(event.pos[0], -2) / 100)
-        pygame.draw.rect(
-          screen, backgroundColour, (0, 0, WIDTH, 66))  
-        dropPiece(gameState, col)
-        gameState.move(col)
-        AImove = True
+        if gameState.rowCounter[col] >= 0:
+          pygame.draw.rect(screen, backgroundColour, (0, 0, WIDTH, 66))
+          dropPiece(gameState, col)
+        if gameState.move(col) == True:
+          AImove = True
         if gameState.win == True:
           if gameState.redTurn:
             print("orange wins")

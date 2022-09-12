@@ -1,6 +1,5 @@
 import random
-
-maxDepth = 6
+maxDepth = 7
 
 def movefinder(gameState, moves):
     global bestMove
@@ -11,7 +10,7 @@ def movefinder(gameState, moves):
 
 def minmax(gameState, moves, redTurn, depth, alpha, beta):
     global bestMove
-    if depth == 0:
+    if depth == 0 or len(moves) == 0:
         return totalScore(gameState)
             
     if redTurn:
@@ -25,11 +24,13 @@ def minmax(gameState, moves, redTurn, depth, alpha, beta):
                 maxScore = score
                 if depth == maxDepth:
                     bestMove = move
+                    
             gameState.undoMove()
             if maxScore > alpha:
                 alpha = maxScore
             if alpha >= beta:
                 break
+            
         return maxScore
     else:
         minScore = 1000
@@ -51,6 +52,11 @@ def minmax(gameState, moves, redTurn, depth, alpha, beta):
       
 def totalScore(gameState):
   score = 0
+  if gameState.win:
+      if gameState.redTurn:
+          return (-1000 * gameState.turns)
+      else:
+          return (1000 * gameState.turns)
   ## Score Horizontal
   for r in range(6):
     for c in range(4):
@@ -58,10 +64,6 @@ def totalScore(gameState):
       reds = counters.count(1)
       oranges = counters.count(2)
       spaces = counters.count(0)
-      if reds == 4:
-        score += 1000
-      if oranges == 4:
-        score -= 1000
       if reds == 2 and spaces == 2:
         score += 5
       if oranges == 2 and spaces == 2:
@@ -70,10 +72,6 @@ def totalScore(gameState):
         score += 10
       if oranges == 3 and spaces == 1:
         score -= 10
-      if reds == 1 and spaces == 3:
-        score += 2
-      if oranges == 1 and spaces == 3:
-        score -= 2
   
 	## Score Vertical
   for c in range(7):
@@ -83,10 +81,6 @@ def totalScore(gameState):
       reds = counters.count(1)
       oranges = counters.count(2)
       spaces = counters.count(0)
-      if reds == 4:
-        score += 1000
-      if oranges == 4:
-        score -= 1000
       if reds == 2 and spaces == 2:
         score += 5
       if oranges == 2 and spaces == 2:
@@ -95,23 +89,16 @@ def totalScore(gameState):
         score += 10
       if oranges == 3 and spaces == 1:
         score -= 10
-      if reds == 1 and spaces == 3:
-        score += 2
-      if oranges == 1 and spaces == 3:
-        score -= 2 
 
 
   ## Score negative sloped diagonal
   for r in range(3):
     for c in range(4):
       counters = [gameState.board[r+i][c+i] for i in range(4)]
+      
       reds = counters.count(1)
       oranges = counters.count(2)
       spaces = counters.count(0)
-      if reds == 4:
-        score += 1000
-      if oranges == 4:
-        score -= 1000
       if reds == 2 and spaces == 2:
         score += 5
       if oranges == 2 and spaces == 2:
@@ -120,10 +107,6 @@ def totalScore(gameState):
         score += 10
       if oranges == 3 and spaces == 1:
         score -= 10
-      if reds == 1 and spaces == 3:
-        score += 2
-      if oranges == 1 and spaces == 3:
-        score -= 2
       
   ## Score positive sloped diagonal
   for r in range(3):
@@ -132,10 +115,6 @@ def totalScore(gameState):
       reds = counters.count(1)
       oranges = counters.count(2)
       spaces = counters.count(0)
-      if reds == 4:
-        score += 1000
-      if oranges == 4:
-        score -= 1000
       if reds == 2 and spaces == 2:
         score += 5
       if oranges == 2 and spaces == 2:
@@ -144,13 +123,8 @@ def totalScore(gameState):
         score += 10
       if oranges == 3 and spaces == 1:
         score -= 10
-      if reds == 1 and spaces == 3:
-        score += 2
-      if oranges == 1 and spaces == 3:
-        score -= 2
   return(score)
 
-#gameState = gameState()
 
 
 

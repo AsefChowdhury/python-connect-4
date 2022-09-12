@@ -6,8 +6,6 @@ screenHeight, screenWidth  = 375, 280
 pvpImgHeight,pvpImgLength  = 125, 125
 pvAIImgHeight,pvAIImgLength  = 125, 125
 
-#screen = pygame.display.set_mode((screenWidth, screenHeight))
-#pygame.display.set_caption('Game Mode')
 
 #load button images
 pvp_img = pygame.transform.scale(pygame.image.load('images/PlayerVsPlayer.png'), (pvpImgHeight, pvpImgLength))
