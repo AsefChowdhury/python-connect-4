@@ -4,8 +4,7 @@ maxDepth = 7
 def movefinder(gameState, moves):
     global bestMove
     random.shuffle(moves)
-    bestMove = moves[0]
-    minmax(gameState, moves, gameState.redTurn, maxDepth, -1000, 1000)
+    minmax(gameState, moves, gameState.redTurn, maxDepth, -10000000, 10000000)
     return (bestMove)
 
 def minmax(gameState, moves, redTurn, depth, alpha, beta):
@@ -14,7 +13,7 @@ def minmax(gameState, moves, redTurn, depth, alpha, beta):
         return totalScore(gameState)
             
     if redTurn:
-        maxScore = -1000
+        maxScore = -10000000
  
         for move in moves:
             gameState.move(move)
@@ -33,7 +32,7 @@ def minmax(gameState, moves, redTurn, depth, alpha, beta):
             
         return maxScore
     else:
-        minScore = 1000
+        minScore = 100000000
         for move in moves:
             gameState.move(move)
             nextMoves = gameState.allMoves()
@@ -56,7 +55,7 @@ def totalScore(gameState):
       if gameState.redTurn:
           return (-1000 * gameState.turns)
       else:
-          return (1000 * gameState.turns)
+          return(1000 * gameState.turns)
   ## Score Horizontal
   for r in range(6):
     for c in range(4):
@@ -73,7 +72,7 @@ def totalScore(gameState):
       if oranges == 3 and spaces == 1:
         score -= 10
   
-	## Score Vertical
+        ## Score Vertical
   for c in range(7):
     col_array = [i[c] for i in gameState.board]
     for r in range(4):
@@ -95,7 +94,7 @@ def totalScore(gameState):
   for r in range(3):
     for c in range(4):
       counters = [gameState.board[r+i][c+i] for i in range(4)]
-      
+      #print(counters)
       reds = counters.count(1)
       oranges = counters.count(2)
       spaces = counters.count(0)
@@ -123,10 +122,5 @@ def totalScore(gameState):
         score += 10
       if oranges == 3 and spaces == 1:
         score -= 10
-  return(score)
-
-
-
-
-  
+  return(score * gameState.turns)
 

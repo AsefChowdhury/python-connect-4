@@ -37,10 +37,6 @@ class Button():
         #draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
         return action
-    
-    
-#create button instances
-
 
 #game loop:
 def menu(screen, backgroundColour, boardImage, HEIGHT):
