@@ -9,8 +9,6 @@ radius = circleDiam / 2
 HEIGHT = 480
 WIDTH = 640
 backgroundColour = [99, 163, 250]
-
-gameState = Engine.gameState()
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT + 68))
 pygame.display.set_caption("connect 4")
@@ -23,7 +21,8 @@ redPiece = pygame.transform.scale(pygame.image.load("images/redPiece.png"),
 orangePiece = pygame.transform.scale(
     pygame.image.load("images/orangePiece.png"),
     (circleDiam + 2, circleDiam + 2))
-
+redWins = pygame.image.load("images/redWins.png")
+orangeWins = pygame.image.load("images/orangeWins.png")
 def dropPiece(gameState, column):
   y = 0
   acc = 0.3
@@ -49,19 +48,29 @@ def dropPiece(gameState, column):
       bounced = True
     screen.blit(boardImage, (0, 66))
     pygame.display.update()
-        
+
+gameState = Engine.gameState()  
 mode = Menu.menu(screen, backgroundColour, boardImage, HEIGHT)
 
 gameOver = False
 won = False
 AImove = False
 
-if mode == True:
-  AIMode = True
-else:
-  AIMode = False
+##if mode == True:
+##  AIMode = True
+##else:
+##  AIMode = False
 
 while not gameOver:
+  if mode == True:
+    AIMode = True
+  else:
+    AIMode = False
+  if gameState.win == True:
+    pygame.time.wait(2000)
+    mode = Menu.menu(screen, backgroundColour, boardImage, HEIGHT)
+    gameState = Engine.gameState()
+    AImove = False
   for event in pygame.event.get():
     if not won:
       if event.type == pygame.MOUSEMOTION:
@@ -87,13 +96,12 @@ while not gameOver:
         if gameState.move(col) == True:
           AImove = True
         if gameState.win == True:
-          if gameState.redTurn:
-            print("orange wins")
+          if gameState.redTurn:)
+            screen.blit(orangeWins, (110, HEIGHT/2))
           else:    
-            print("red wins")
-          won = True
+            screen.blit(redWins, (170, HEIGHT/2))
           
-      if AImove == True and won == False and AIMode == True:
+      if AImove == True and gameState.win == False and AIMode == True:
         moves = gameState.allMoves()
         bestMove = AI.movefinder(gameState, moves)
         dropPiece(gameState, bestMove)
@@ -101,10 +109,10 @@ while not gameOver:
         AImove = False
         if gameState.win == True:
           if gameState.redTurn:
-            print("orange wins")
+            screen.blit(orangeWins, (110, HEIGHT/2))
           else:    
-            print("red wins")
-          won = True
+            screen.blit(redWins, (170, HEIGHT/2))
+
     if event.type == pygame.QUIT:
       gameOver = True
     pygame.display.update()
