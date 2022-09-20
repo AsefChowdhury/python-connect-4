@@ -11,6 +11,7 @@ class gameState():
     self.moveLog = [] #move log used for the undoMove method
     self.win = False
     self.turns = len(self.board) * len(self.board[0])
+    self.winningCoords = []
   
   def allMoves(self):
     moves = []
@@ -50,7 +51,8 @@ class gameState():
     diagonalLefts, verticals, horizontals, diagonalRights = 0, 0, 0, 0
     piece = self.board[self.rowCounter[column] + 1][column]
     row = self.rowCounter[column] + 1
-    
+
+    winningCoords = [(row, column)]
     # Horizonals:
     positiveDir, negativeDir = False, False
     col = 1
@@ -58,6 +60,7 @@ class gameState():
       if negativeDir == False:
         if column - col >= 0:
           if piece == self.board[row][column - col]:
+            winningCoords.append((row, column-col))
             horizontals += 1
           else:
             negativeDir = True
@@ -67,6 +70,7 @@ class gameState():
       if positiveDir == False:
         if column + col <= 6:
           if piece == self.board[row][column + col]:
+            winningCoords.insert(0, (row, column+col))
             horizontals += 1
           else:
             positiveDir = True
@@ -74,8 +78,10 @@ class gameState():
           positiveDir = True
       col += 1
     if horizontals >= 3:
+      self.winningCoords = winningCoords
       return True
-      
+
+    winningCoords = [(row,column)] 
     # Verticals:  
     negativeDir = False
     r = 1
@@ -83,6 +89,7 @@ class gameState():
       if negativeDir == False:
         if row + r <= 5:
           if piece == self.board[row + r][column]:
+            winningCoords.append((row+r, column))
             verticals += 1
           else:
             negativeDir = True
@@ -90,7 +97,10 @@ class gameState():
           negativeDir = True
       r += 1
     if verticals >= 3:
+      self.winningCoords = winningCoords
       return True
+
+    winningCoords = [(row,column)]
     # diagonalLefts:
     positiveDir, negativeDir = False, False
     r = 1
@@ -99,6 +109,7 @@ class gameState():
       if positiveDir == False:
         if column - col >= 0 and row - r >= 0:
           if piece == self.board[row - r][column - col]:
+            winningCoords.insert(0, (row-r, column-col))
             diagonalLefts += 1
           else:
             positiveDir = True
@@ -108,6 +119,7 @@ class gameState():
       if negativeDir == False:
         if row + r <= 5 and column + col <= 6:
           if piece == self.board[row + r][column + col]:
+            winningCoords.append((row+r, column+col))
             diagonalLefts += 1
           else:
             negativeDir = True
@@ -116,8 +128,10 @@ class gameState():
       r += 1
       col += 1
     if diagonalLefts >= 3:
+      self.winningCoords = winningCoords
       return True
-      
+
+    winningCoords = [(row,column)]
     # diagonalRights:
     positiveDir, negativeDir = False, False
     r = 1
@@ -126,6 +140,7 @@ class gameState():
       if negativeDir == False:
         if column - col >= 0 and row + r <= 5:
           if piece == self.board[row + r][column - col]:
+            winningCoords.insert(0, (row+r, column-col))
             diagonalRights += 1
           else:
             negativeDir = True
@@ -135,6 +150,7 @@ class gameState():
       if positiveDir == False:
         if row - r >= 0 and column + col <= 6:
           if piece == self.board[row - r][column + col]:
+            winningCoords.append((row-r, column+col))
             diagonalRights += 1
           else:
             positiveDir = True
@@ -143,5 +159,6 @@ class gameState():
       r += 1
       col += 1
     if diagonalRights >= 3:
+      self.winningCoords = winningCoords
       return True
     return False
