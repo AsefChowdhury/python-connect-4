@@ -51,19 +51,16 @@ def dropPiece(gameState, column):
     pygame.display.update()
 
 def drawWin(gameState):
-  winningCoords = (gameState.winningCoords[0], gameState.winningCoords[-1])
   lineStartX, lineStartY = 51 + 89.6 * gameState.winningCoords[0][1], 500 - (78 * (5 - gameState.winningCoords[0][0])) 
   lineEndX, lineEndY = 51 + 89.6 * gameState.winningCoords[-1][1], 500 - (78 * (5 - gameState.winningCoords[-1][0]))
   dx, dy = lineEndX - lineStartX, lineEndY - lineStartY
   dist = int(math.hypot(dx, dy))
   dx, dy = dx/dist, dy/dist
-  currentX, currentY = lineStartX, lineStartY
   currentDist = 0
-  
   while currentDist < dist:
-    pygame.draw.circle(screen, [255, 255, 255], (currentX, currentY), 8)
-    currentX += dx
-    currentY += dy
+    pygame.draw.circle(screen, [255, 255, 255], (lineStartX, lineStartY), 8)
+    lineStartX += dx
+    lineStartY += dy
     pygame.display.update()
     currentDist += 1
   
