@@ -67,7 +67,10 @@ def drawWin(gameState):
   
 gameState = Engine.gameState()  
 mode = Menu.menu(screen, backgroundColour, boardImage, HEIGHT)
-
+if mode == True:
+  AIMode = True
+else:
+  AIMode = False
 gameOver = False
 won = False
 AImove = False
@@ -78,10 +81,10 @@ while not gameOver:
     mode = Menu.menu(screen, backgroundColour, boardImage, HEIGHT)
     gameState = Engine.gameState()
     AImove = False
-  if mode == True:
-    AIMode = True
-  else:
-    AIMode = False
+    if mode == True:
+      AIMode = True
+    else:
+      AIMode = False
   for event in pygame.event.get():
     if not won:
       if event.type == pygame.MOUSEMOTION:
